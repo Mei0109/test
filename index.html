@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马术课反应记录</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>过敏反应情况登记表</h1>
+        <form id="horseRidingForm">
+            <div class="form-section">
+                <h2>📅 日期</h2>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-section">
+                <h2>🌤 天气状况（可多选）</h2>
+                
+                <!-- 添加天气信息显示容器 -->
+                <div id="weatherContainer" class="weather-container">
+                    <!-- 天气数据将在这里动态加载 -->
+                </div>
+                
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="weather" value="晴"> ☀️晴</label>
+                    <label><input type="checkbox" name="weather" value="阴"> ☁️阴</label>
+                    <label><input type="checkbox" name="weather" value="雨"> 🌧雨</label>
+                    <label><input type="checkbox" name="weather" value="风大"> 🌬风大</label>
+                </div>
+                <div id="windLevelContainer" class="hidden">
+                    <div class="form-group">
+                        <label for="windDescription">风力情况描述：</label>
+                        <input type="text" id="windDescription" name="windDescription" placeholder="请描述当前风力情况">
+                    </div>
+                </div>
+                <!-- 其他内容保持不变 -->
+            </div>
+
+            <!-- 检查HTML结构
+
+            确认HTML中的结构是否正确：
+            ```html
+            <!-- 将顺义区花粉情况预报改为本区花粉情况预报 -->
+            <div class="form-section">
+                <h2>🌻 本区花粉情况预报</h2>
+                <div class="form-group">
+                    <label for="pollenLevel">花粉浓度等级：</label>
+                    <select id="pollenLevel" name="pollenLevel">
+                        <option value="">请选择</option>
+                        <option value="1">1级 (低)</option>
+                        <option value="2">2级 (较低)</option>
+                        <option value="3">3级 (中等)</option>
+                        <option value="4">4级 (高)</option>
+                        <option value="5">5级 (很高)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>主要花粉种类（多选）：</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="pollenTypes" value="杨柳科"> 杨柳科</label>
+                        <label><input type="checkbox" name="pollenTypes" value="柏科"> 柏科</label>
+                        <label><input type="checkbox" name="pollenTypes" value="榆树"> 榆树</label>
+                        <label><input type="checkbox" name="pollenTypes" value="桦木"> 桦木</label>
+                        <label><input type="checkbox" name="pollenTypes" value="其他"> 其他</label>
+                    </div>
+                    <div id="otherPollenTypesContainer" class="hidden">
+                        <label for="otherPollenTypes">其他花粉种类：</label>
+                        <input type="text" id="otherPollenTypes" name="otherPollenTypes">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>是否为过敏高发预警日？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="allergyAlert" value="是"> 是</label>
+                        <label><input type="radio" name="allergyAlert" value="否"> 否</label>
+                        <label><input type="radio" name="allergyAlert" value="不确定"> 不确定</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>🌼 花粉/沙尘情况</h2>
+                <div class="radio-group">
+                    <label><input type="radio" name="pollen" value="是"> 是</label>
+                    <label><input type="radio" name="pollen" value="否"> 否</label>
+                    <label><input type="radio" name="pollen" value="不确定"> 不确定</label>
+                    <label><input type="radio" name="pollen" value="其他"> 其他</label>
+                </div>
+                <!-- 新增其他情况输入框 -->
+                <div id="otherPollenContainer" class="hidden">
+                    <label for="otherPollen">其他情况描述：</label>
+                    <input type="text" id="otherPollen" name="otherPollen">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>🐴 上课情况</h2>
+                <!-- 删除"是否与马直接接触" -->
+                
+                <div class="form-group">
+                    <label>是否更换头盔？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="helmet" value="是"> 是</label>
+                        <label><input type="radio" name="helmet" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div id="helmetCleanContainer" class="hidden">
+                    <label>头盔是否清洁？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="helmetClean" value="是"> 是</label>
+                        <label><input type="radio" name="helmetClean" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>马鞍是否更换？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="saddleChanged" value="是"> 是</label>
+                        <label><input type="radio" name="saddleChanged" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>是否出汗明显？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="sweat" value="是"> 是</label>
+                        <label><input type="radio" name="sweat" value="否"> 否</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其余部分保持不变 -->
+            <div class="form-section">
+                <h2>🧴 护肤/防护措施</h2>
+                <div class="form-group">
+                    <label>是否使用日常护肤品？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="skincare" value="是"> 是</label>
+                        <label><input type="radio" name="skincare" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div id="skincareNameContainer" class="hidden">
+                    <label for="skincareName">护肤品名称：</label>
+                    <input type="text" id="skincareName" name="skincareName">
+                </div>
+
+                <div class="form-group">
+                    <label>是否涂凡士林/屏障霜？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="vaseline" value="是"> 是</label>
+                        <label><input type="radio" name="vaseline" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>是否戴帽子/口罩？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="hatMask" value="是"> 是</label>
+                        <label><input type="radio" name="hatMask" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>是否骑马后立即洗脸？</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="washFace" value="是"> 是</label>
+                        <label><input type="radio" name="washFace" value="否"> 否</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>⌛ 症状出现时间</h2>
+                <div class="radio-group">
+                    <label><input type="radio" name="symptomTime" value="无"> 无</label>
+                    <label><input type="radio" name="symptomTime" value="有"> 马术结束后出现</label>
+                </div>
+                <div id="hourContainer" class="hidden">
+                    <label for="hours">小时数：</label>
+                    <input type="number" id="hours" name="hours" min="0" max="72">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>😖 皮肤反应情况（可多选）</h2>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="symptoms" value="红肿"> 红肿</label>
+                    <label><input type="checkbox" name="symptoms" value="红疹"> 红疹</label>
+                    <label><input type="checkbox" name="symptoms" value="瘙痒"> 瘙痒</label>
+                    <label><input type="checkbox" name="symptoms" value="烧灼感"> 烧灼感</label>
+                    <label><input type="checkbox" name="symptoms" value="眼睑肿胀"> 眼睑肿胀</label>
+                    <label><input type="checkbox" name="symptoms" value="其他"> 其他</label>
+                </div>
+                <div id="otherSymptomsContainer" class="hidden">
+                    <label for="otherSymptoms">其他症状：</label>
+                    <input type="text" id="otherSymptoms" name="otherSymptoms">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>💊 是否使用药物</h2>
+                <div class="form-group">
+                    <label for="topicalMed">外用药（名称）：</label>
+                    <input type="text" id="topicalMed" name="topicalMed">
+                </div>
+                <div class="form-group">
+                    <label for="oralMed">口服药（名称）：</label>
+                    <input type="text" id="oralMed" name="oralMed">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>📝 备注</h2>
+                <textarea id="notes" name="notes" rows="4" placeholder="如饮食变化、身体状态、其他可疑因素等"></textarea>
+            </div>
+
+            <!-- 2. 添加日期查找功能
+
+            需要在HTML中添加日期查找表单，并在JavaScript中实现查找逻辑：
+
+            ### HTML修改
+
+            在记录列表上方添加日期查找表单：
+            ```html
+            <!-- 在表单提交按钮下方，记录列表上方添加 -->
+            <div class="form-actions">
+                <button type="submit" id="saveBtn">保存记录</button>
+                <button type="reset">重置表单</button>
+                <button type="button" id="exportBtn">导出记录</button>
+                <button type="button" id="statsBtn">统计分析</button>
+            </div>
+            
+            <!-- 添加日期查找功能 -->
+            <div class="search-container">
+                <h2>查找既往记录</h2>
+                <div class="search-form">
+                    <div class="date-range">
+                        <div class="date-input">
+                            <label for="searchStartDate">开始日期：</label>
+                            <input type="date" id="searchStartDate">
+                        </div>
+                        <div class="date-input">
+                            <label for="searchEndDate">结束日期：</label>
+                            <input type="date" id="searchEndDate">
+                        </div>
+                    </div>
+                    <button type="button" id="searchBtn">查找</button>
+                    <button type="button" id="resetSearchBtn">重置</button>
+                </div>
+            </div>
+            
+            <!-- 记录容器 -->
+            <div id="recordsContainer" class="hidden">
+                <h2>已保存的记录</h2>
+                <div id="records"></div>
+            </div>
+            <button type="button" id="statsBtn">统计分析</button>
+        </form>
+
+        <div id="recordsContainer" class="hidden">
+            <h2>历史记录</h2>
+            <div id="records"></div>
+        </div>
+
+        <!-- 新增统计结果容器 -->
+        <div id="statsContainer" class="hidden">
+            <h2>数据统计</h2>
+            <div id="statsContent"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- 日期输入框后面添加城市选择 -->
+<div class="form-group">
+    <label for="citySelect">城市：</label>
+    <select id="citySelect" name="city">
+        <option value="北京" selected>北京</option>
+        <option value="上海">上海</option>
+        <option value="广州">广州</option>
+        <option value="深圳">深圳</option>
+        <option value="成都">成都</option>
+    </select>
+</div>
