@@ -430,6 +430,10 @@ h2 .multi-select-hint {
     color: #d32f2f;
     font-weight: 500;
     padding: 5px 0;
+    background-color: #ffebee;
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 5px;
 }
 
 /* 城市选择样式 */
