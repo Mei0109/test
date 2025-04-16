@@ -48,27 +48,35 @@ document.addEventListener('DOMContentLoaded', function() {
     // 自动获取天气信息
     function getWeatherData() {
         // 获取当前选择的城市
+        const citySelect = document.getElementById('citySelect');
         const city = citySelect ? citySelect.value : '北京';
         const coords = cityCoordinates[city] || cityCoordinates['北京'];
     
         let weatherContainer = document.getElementById('weatherContainer');
         if (!weatherContainer) {
-            // 若不存在则创建（可省略，假设HTML已有）
+            console.error('找不到weatherContainer元素');
             return;
         }
-        weatherContainer.innerHTML = '';
+        
+        weatherContainer.innerHTML = '<p>正在获取天气数据...</p>';
     
-        const weatherLoading = document.createElement('p');
-        weatherLoading.textContent = '正在获取天气数据...';
-        weatherContainer.appendChild(weatherLoading);
-    
-        // OpenMeteo API
+        // 使用HTTPS协议确保在GitHub Pages上正常工作
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&timezone=Asia%2FShanghai`;
     
+        console.log('正在请求天气API:', url);
+    
+        // 添加错误处理和调试信息
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP错误! 状态: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('获取到天气数据:', data);
                 weatherContainer.innerHTML = '';
+                
                 if (data.current) {
                     const current = data.current;
                     const temp = current.temperature_2m;
@@ -131,13 +139,36 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     weatherContainer.appendChild(weatherSuccess);
                 } else {
-                    weatherContainer.innerHTML = '<p>获取天气数据失败，请手动输入天气信息</p>';
+                    weatherContainer.innerHTML = '<p class="error-message">获取天气数据失败，请手动输入天气信息</p>';
                 }
             })
             .catch(error => {
-                weatherContainer.innerHTML = '<p>获取天气数据失败，请手动输入天气信息</p>';
+                console.error('获取天气数据出错:', error);
+                weatherContainer.innerHTML = `<p class="error-message">获取天气数据失败: ${error.message}</p>`;
             });
     }
+    
+    // 确保在页面加载完成后调用天气API
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... 其他初始化代码 ...
+        
+        // 确保citySelect元素存在后再调用天气API
+        setTimeout(() => {
+            const citySelect = document.getElementById('citySelect');
+            if (citySelect) {
+                console.log('找到citySelect元素，正在获取天气数据');
+                getWeatherData();
+                
+                // 添加城市变更事件监听
+                citySelect.addEventListener('change', function() {
+                    console.log('城市已变更为:', this.value);
+                    getWeatherData();
+                });
+            } else {
+                console.error('找不到citySelect元素');
+            }
+        }, 500); // 给DOM一点加载时间
+    });
     
     // 根据风向角度获取风向文字
     function getWindDirection(degrees) {

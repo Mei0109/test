@@ -13,6 +13,18 @@
             <div class="form-section">
                 <h2>📅 日期</h2>
                 <input type="date" id="date" name="date" required>
+                
+                <!-- 将城市选择移到这里 - 日期输入框后面 -->
+                <div class="form-group city-select-container">
+                    <label for="citySelect">城市：</label>
+                    <select id="citySelect" name="city">
+                        <option value="北京" selected>北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                        <option value="深圳">深圳</option>
+                        <option value="成都">成都</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-section">
@@ -276,15 +288,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-<!-- 日期输入框后面添加城市选择 -->
-<div class="form-group">
-    <label for="citySelect">城市：</label>
-    <select id="citySelect" name="city">
-        <option value="北京" selected>北京</option>
-        <option value="上海">上海</option>
-        <option value="广州">广州</option>
-        <option value="深圳">深圳</option>
-        <option value="成都">成都</option>
-    </select>
-</div>
