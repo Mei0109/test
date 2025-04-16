@@ -238,7 +238,7 @@
 
             在记录列表上方添加日期查找表单：
             ```html
-            <!-- 在表单提交按钮下方，记录列表上方添加 -->
+            <!-- 修复表单提交按钮部分，删除重复的statsBtn -->
             <div class="form-actions">
                 <button type="submit" id="saveBtn">保存记录</button>
                 <button type="reset">重置表单</button>
@@ -265,13 +265,21 @@
                 </div>
             </div>
             
-            <!-- 记录容器 -->
+            <!-- 修复记录容器，删除重复的recordsContainer -->
             <div id="recordsContainer" class="hidden">
                 <h2>已保存的记录</h2>
                 <div id="records"></div>
             </div>
-            <button type="button" id="statsBtn">统计分析</button>
-        </form>
+            
+            <!-- 删除重复的statsBtn和recordsContainer -->
+            </form>
+            
+            <!-- 新增统计结果容器 -->
+            <div id="statsContainer" class="hidden">
+                <h2>数据统计</h2>
+                <div id="statsContent"></div>
+            </div>
+        </div>
 
         <div id="recordsContainer" class="hidden">
             <h2>历史记录</h2>

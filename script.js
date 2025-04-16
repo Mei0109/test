@@ -34,18 +34,23 @@ document.addEventListener('DOMContentLoaded', function() {
         '广州': { lat: 23.1291, lon: 113.2644 },
         '深圳': { lat: 22.5431, lon: 114.0579 },
         '成都': { lat: 30.5728, lon: 104.0668 }
-        // 可继续添加
     };
     
     // 监听城市选择变化，自动刷新天气
     const citySelect = document.getElementById('citySelect');
     if (citySelect) {
         citySelect.addEventListener('change', function() {
+            console.log('城市已变更为:', this.value);
             getWeatherData();
         });
+    } else {
+        console.error('找不到citySelect元素');
     }
     
     // 自动获取天气信息
+    getWeatherData();
+    
+    // 自动获取天气信息函数
     function getWeatherData() {
         // 获取当前选择的城市
         const citySelect = document.getElementById('citySelect');
@@ -59,11 +64,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         weatherContainer.innerHTML = '<p>正在获取天气数据...</p>';
+        console.log('正在获取天气数据，城市:', city);
     
         // 使用HTTPS协议确保在GitHub Pages上正常工作
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&timezone=Asia%2FShanghai`;
-    
-        console.log('正在请求天气API:', url);
+        
+        console.log('天气API请求URL:', url);
     
         // 添加错误处理和调试信息
         fetch(url)
@@ -98,6 +104,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
                     // 自动选中天气checkbox
                     const weatherCheckboxes = document.querySelectorAll('input[name="weather"]');
+                    // 先清除所有选中状态
+                    weatherCheckboxes.forEach(cb => cb.checked = false);
+                    
+                    // 根据天气文本自动选中对应选项
                     weatherCheckboxes.forEach(checkbox => {
                         if ((weatherText.includes('晴') && checkbox.value === '晴') ||
                             (weatherText.includes('阴') && checkbox.value === '阴') ||
@@ -112,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const windCheckbox = document.querySelector('input[name="weather"][value="风大"]');
                         if (windCheckbox) {
                             windCheckbox.checked = true;
+                            const windLevelContainer = document.getElementById('windLevelContainer');
                             if (windLevelContainer) {
                                 windLevelContainer.classList.remove('hidden');
                                 const windDescription = document.getElementById('windDescription');
